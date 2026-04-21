@@ -34,16 +34,24 @@ pub enum TaskStatus {
 
 #[repr(C)]
 #[derive(Copy, Clone)]
+/// Information about a single syscall performed by a task.
 pub struct SyscallInfo {
+    /// The syscall number.
     pub id: usize,
+    /// The number of times this syscall has been invoked.
     pub times: usize,
 }
 
 #[repr(C)]
 #[derive(Copy, Clone)]
+/// Snapshot information for a task, suitable for reporting or tracing.
 pub struct TaskInfo {
+    /// The task identifier.
     pub id: usize,
+    /// The current status of the task.
     pub status: TaskStatus,
+    /// Per-syscall statistics for this task.
     pub call: [SyscallInfo; MAX_SYSCALL_NUM],
+    /// Total accumulated running time for the task.
     pub time: usize,
 }
