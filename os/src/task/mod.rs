@@ -88,7 +88,13 @@ lazy_static! {
     /// Global variable: TASK_MANAGER
     pub static ref TASK_MANAGER: TaskManager = {
         let num_app = get_num_app();
-        let mut tasks = [TaskControlBlock {task_cx:TaskContext::zero_init(),task_status:TaskStatus::UnInit, total_time: todo!(), last_start_time: todo!(), syscall_count: todo!() }; MAX_APP_NUM];
+        let mut tasks = [TaskControlBlock {
+            task_cx: TaskContext::zero_init(),
+            task_status: TaskStatus::UnInit,
+            total_time: 0,
+            last_start_time: 0,
+            syscall_count: [0; MAX_SYSCALL_NUM],
+        }; MAX_APP_NUM];
         for (i, task) in tasks.iter_mut().enumerate() {
             task.task_cx = TaskContext::goto_restore(init_app_cx(i));
             task.task_status = TaskStatus::Ready;
@@ -196,8 +202,6 @@ impl TaskManager {
             // go back to user mode
         } else {
             panic!("All applications completed!");
-            use crate::board::QEMUExit;
-            crate::board::QEMU_EXIT_HANDLE.exit_success();
         }
     }
 }
