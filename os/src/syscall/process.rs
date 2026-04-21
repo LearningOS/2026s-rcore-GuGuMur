@@ -3,6 +3,7 @@ use crate::{
     task::{exit_current_and_run_next, suspend_current_and_run_next},
     timer::get_time_us,
 };
+use crate::task::get_syscall_count;
 
 #[repr(C)]
 #[derive(Debug)]
