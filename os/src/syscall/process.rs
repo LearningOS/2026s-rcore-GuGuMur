@@ -1,6 +1,8 @@
 //! Process management syscalls
-use crate::task::{exit_current_and_run_next, suspend_current_and_run_next, TaskInfo};
-use crate::timer::get_time_us;
+use crate::{
+    task::{exit_current_and_run_next, suspend_current_and_run_next},
+    timer::get_time_us,
+};
 
 #[repr(C)]
 #[derive(Debug)]
@@ -36,8 +38,8 @@ pub fn sys_get_time(ts: *mut TimeVal, _tz: usize) -> isize {
     0
 }
 
-/// query task info for a specific task id
-pub fn sys_trace(id: usize, ts: *mut TaskInfo) -> isize {
+// TODO: implement the syscall
+pub fn sys_trace(_trace_request: usize, _id: usize, _data: usize) -> isize {
     trace!("kernel: sys_trace");
-    crate::task::TASK_MANAGER.get_task_info(id, ts)
+    -1
 }
